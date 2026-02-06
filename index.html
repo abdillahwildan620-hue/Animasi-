@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WARNING! Virus Detected</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        body {
+            background-color: #000;
+            color: #0f0;
+            overflow: hidden;
+            padding: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .warning-header {
+            color: #f00;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            animation: blink 0.5s infinite alternate;
+        }
+        .popup {
+            position: fixed;
+            background-color: #222;
+            border: 2px solid #f00;
+            padding: 15px;
+            color: #f00;
+            font-weight: bold;
+            z-index: 9999;
+            animation: movePopup 8s infinite linear;
+        }
+        .fake-file {
+            margin: 5px 0;
+            animation: fadeIn 0.3s forwards;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #333;
+            border: 1px solid #0f0;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #f00;
+            animation: fillProgress 15s infinite linear;
+        }
+        .fake-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background-color: #0f0;
+            animation: blinkCursor 0.8s infinite;
+        }
+
+        /* Animasi */
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0.5; }
+        }
+        @keyframes blinkCursor {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            80% { width: 90%; }
+            100% { width: 100%; }
+        }
+        @keyframes movePopup {
+            0% { top: 10%; left: 10%; transform: scale(1); }
+            25% { top: 30%; left: 70%; transform: scale(1.1); }
+            50% { top: 60%; left: 30%; transform: scale(0.9); }
+            75% { top: 80%; left: 60%; transform: scale(1.2); }
+            100% { top: 10%; left: 10%; transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body id="screen">
+    <!-- Header Peringatan -->
+    <div class="warning-header">
+        [SYSTEM WARNING] VIRUS MALWARE DETECTED - SYSTEM CORRUPTION IN PROGRESS
+    </div>
+
+    <!-- Progress Bar -->
+    <div>SYSTEM SCANNING & DELETING FILES...</div>
+    <div class="progress-bar">
+        <div class="progress-fill"></div>
+    </div>
+
+    <!-- Daftar File Palsu -->
+    <div id="file-list"></div>
+
+    <!-- Popup Peringatan Pindah-pindah -->
+    <div class="popup">CRITICAL ERROR! C: DRIVE CORRUPTED</div>
+    <div class="popup">VIRUS SPREADING TO USB DEVICES...</div>
+    <div class="popup">UNABLE TO REPAIR SYSTEM FILES</div>
+
+    <!-- Baris Command Palsu -->
+    <div id="command-line">
+        C:\WINDOWS\system32> <span class="fake-cursor"></span>
+    </div>
+
+    <script>
+        // Daftar nama file palsu
+        const fakeFiles = [
+            "Documents\Laporan_Kantor.docx",
+            "Pictures\Foto_Keluarga.jpg",
+            "Videos\Liburan_Bali.mp4",
+            "Downloads\Game_Favorit.exe",
+            "Desktop\Tugas_Akhir.pdf",
+            "Music\Lagu_Favorit.mp3",
+            "C:\WINDOWS\system32\kernel32.dll",
+            "C:\Program Files\Browser\Data\User.dat",
+            "D:\Backup\Data_Penting.rar",
+            "E:\Foto\Wisuda.jpg"
+        ];
+
+        // Fungsi buat menampilkan file secara acak
+        function addFakeFile() {
+            const fileList = document.getElementById('file-list');
+            const randomFile = fakeFiles[Math.floor(Math.random() * fakeFiles.length)];
+            const fileDiv = document.createElement('div');
+            fileDiv.className = 'fake-file';
+            fileDiv.innerHTML = `[!] DELETING FILE: ${randomFile} - SUCCESS`;
+            fileList.appendChild(fileDiv);
+            
+            // Hapus file lama jika terlalu banyak
+            if (fileList.children.length > 15) {
+                fileList.removeChild(fileList.firstChild);
+            }
+        }
+
+        // Fungsi buat menampilkan command palsu
+        function addFakeCommand() {
+            const commands = [
+                "scannow /full /force",
+                "delete *.* /q",
+                "format C: /fs:NTFS /q",
+                "reg delete HKLM\SYSTEM /f",
+                "shutdown /r /t 10"
+            ];
+            const commandLine = document.getElementById('command-line');
+            const randomCmd = commands[Math.floor(Math.random() * commands.length)];
+            commandLine.innerHTML = `C:\WINDOWS\system32> ${randomCmd} <span class="fake-cursor"></span>`;
+        }
+
+        // Jalankan animasi secara berkala
+        setInterval(addFakeFile, 800);
+        setInterval(addFakeCommand, 3000);
+
+        // Tambahkan efek getaran layar secara acak
+        setInterval(() => {
+            document.body.style.transform = `translate(${Math.random()*5-2.5}px, ${Math.random()*5-2.5}px)`;
+            setTimeout(() => {
+                document.body.style.transform = 'translate(0,0)';
+            }, 100);
+        }, 5000);
+    </script>
+</body>
+</html>
